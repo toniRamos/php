@@ -7,5 +7,6 @@ COPY . /app
 CMD  /app/database
 RUN composer create-project --prefer-dist laravel/laravel
 
-CMD php artisan serve --host=0.0.0.0 --port=8181
+CMD php artisan serve --host=0.0.0.0 --port=8181 &
 EXPOSE 8181
+CMD sleep infinity
