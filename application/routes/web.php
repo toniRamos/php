@@ -1,5 +1,8 @@
 <?php
 
+
+use App\Http\Middleware\CheckUserNameLength;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,3 +17,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('ping', 'AppController@ping');
+
+Route::get('shout/{userName}/limit={limit}', 'AppController@shout')->middleware(CheckUserNameLength::class);;
