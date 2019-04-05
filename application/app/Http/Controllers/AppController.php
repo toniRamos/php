@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Infrastructure\TweetRepositoryInMemory;
+use App\Service\ApplicationService;
 
 class AppController extends Controller{
-    public function helloWorld(){
-        print_r("Hola que ase");
+    private $applicationService;
+
+    function __construct(){
+        $this->applicationService = new ApplicationService();
     }
 
     public function ping(){
@@ -14,13 +16,18 @@ class AppController extends Controller{
     }
 
     public function shout($userName,$limit){
-        $test = new TweetRepositoryInMemory();
-        $twits = $test->searchByUserName("hola",2);
-        print_r($twits[0]->getText());
+        $code = 200;
+        $message = "";
 
-        print_r($userName);
-        print_r("\n");
-        print_r($limit);
+        try{
+            $message = $this->applicationService->getMessages($userName,$limit);
+        }catch(Exception $e){
+            $code = 500;
+            $message = "An error has occurred";
+        }
+
+        return response()->json($message, $code);
+        
     }
 
 }

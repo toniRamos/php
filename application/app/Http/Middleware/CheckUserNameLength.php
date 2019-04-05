@@ -20,6 +20,10 @@ class CheckUserNameLength
             return response()->json("The user must have the same or more than 10 characters", 400);
         }
 
+        if(!is_numeric($request->limit)){
+            return response()->json("The limit is not a number, insert the limit in numeric format", 400);
+        }
+
 
         return $next($request);
     }
