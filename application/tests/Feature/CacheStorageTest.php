@@ -7,15 +7,9 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use App\Infrastructure\CacheStorage;
-use Cache;
 
 class CacheStorageTest extends TestCase
 {
-    var $cacheStorage;
-
-    public function setUp():void {
-        $this->cacheStorage = new CacheStorage();
-    }
 
     /**
      * A basic feature get storage in cache.
@@ -24,23 +18,21 @@ class CacheStorageTest extends TestCase
      */
     public function testGet()
     {
-        $userTest = "antonio";
+        $userTest = "ExampleUserName";
         $limit = 1;
         $textSave = "This a test save in cache";
 
-        $resultCall = false;
+        $stub = $this->createMock(CacheStorage::class);
 
-        #Cache::put("Hola","que tal ", 1);
+        $varReturn = [
+            $textSave
+        ];
 
-        #$resultCall = $this->cacheStorage->set($userTest,$limit,$textSave);
+        $stub->method('get')->willReturn($varReturn);
 
-        if($resultCall){
-            #print_r("Guardado correctamente");
-        }else{
-            #print_r("Ojo cuidado, no guardado");
-        }
+        $valueCallReturned = $stub->get($userTest,$limit);
 
-        $this->assertTrue(true,true);
+        $this->assertSame([$textSave], $valueCallReturned);
 
     }
 
@@ -51,10 +43,19 @@ class CacheStorageTest extends TestCase
      */
     public function testSet()
     {
+        $userTest = "ExampleUserName";
+        $limit = 1;
+        $textSave = "This a test save in cache";
 
-        $this->assertTrue(true,true);
+        $stub = $this->createMock(CacheStorage::class);
 
-        #print_r("hola que ase");die;
+        $varReturn = true;
+
+        $stub->method('set')->willReturn($varReturn);
+
+        $valueCallReturned = $stub->set($userTest,$limit,[$textSave]);
+
+        $this->assertSame(true, $valueCallReturned);
 
     }
 }

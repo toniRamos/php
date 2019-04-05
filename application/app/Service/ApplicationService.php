@@ -7,8 +7,6 @@ use App\Infrastructure\CacheStorage;
 use App\Service\ShoutService;
 use Log;
 
-#TODO borrar la siguiente linea
-use Cache;
 
 class ApplicationService{
     private $tweetRepository;
@@ -22,14 +20,14 @@ class ApplicationService{
     }
 
     #This function obtain messages an process
-    public function getMessages($userName,$limit){
+    public function getMessages($userName,$limit) {
         $arrayTree = [];
 
-        
         Log::debug("I will check cached messages fot this username and limit");
         $twittsSaved = $this->cacheStorage->get($userName,$limit);
 
         $twits = [];
+
 
         if(empty($twittsSaved)){
             Log::debug("This user and limit not contain twits in cache");
@@ -42,15 +40,16 @@ class ApplicationService{
 
         Log::debug("go translate messages an process");
         foreach($twits as $twit){
-            $textTwit = htmlentities($twit);
+            $textTwit = $twit;
 
             $textTwit = $this->transformText($textTwit);
 
-            $arrayTree[] = $textTwit;
+            $arrayTree[] = utf8_encode($textTwit);
+
         }
         Log::debug("Finish process messages");
 
-        return json_encode($arrayTree);
+        return $arrayTree;
     }
 
     #This function transform to messages to upper and add exclamation

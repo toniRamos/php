@@ -3,13 +3,14 @@
 namespace App\Infrastructure;
 
 use Cache;
+use Log;
 
 class CacheStorage implements StorageRepository{
     private $timeCache;
     private $tokenFind;
 
     function __construct(){
-        $this->timeCache = isset($_ENV['timeCache']) ? $_ENV['timeCache'] : 1000;
+        $this->timeCache = isset($_ENV['timeCache']) ? $_ENV['timeCache'] : 500;
         $this->tokenFind = isset($_ENV['tokenFind']) ? $_ENV['tokenFind'] : '-';
     }
 
@@ -34,6 +35,7 @@ class CacheStorage implements StorageRepository{
         try{
             Cache::put($keySave, json_encode($textSave) , $this->timeCache);
         }catch(Exception $e){
+            Log::Error("Error saved in cache");
             $returnResultSave = false;
         }
 

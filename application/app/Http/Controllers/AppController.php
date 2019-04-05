@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Service\ApplicationService;
+use Log;
 
 class AppController extends Controller{
     private $applicationService;
@@ -24,6 +25,7 @@ class AppController extends Controller{
         }catch(Exception $e){
             $code = 500;
             $message = "An error has occurred";
+            Log::Error('Error obtain messages userName "'.$userName.' and limit'.$limit);
         }
 
         return response()->json($message, $code);
