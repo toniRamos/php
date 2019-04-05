@@ -1,3 +1,3 @@
 #!/bin/sh
-./docker-build-launcher.sh
-./dockerlauncher-test.sh
+./docker-build.sh
+./docker-launcher-test.sh

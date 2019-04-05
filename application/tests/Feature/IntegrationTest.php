@@ -29,7 +29,7 @@ class IntegrationTest extends TestCase
 
         $handle = curl_init();
  
-        $url = "http://0.0.0.0:8181/shout/".$userTest."/limit=".$limit;
+        $url = "127.0.0.1:8000/shout/".$userTest."/limit=".$limit;
         
         // Set the url
         curl_setopt($handle, CURLOPT_URL, $url);
